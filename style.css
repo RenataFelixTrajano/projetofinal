@@ -1,0 +1,127 @@
+/* --- CONFIGURAÇÕES GERAIS --- */
+.stApp { 
+    background-color: #F8FAFC; 
+}
+
+.titulo-dashboard {
+    color: #1E3A8A !important;    /* Azul Escuro M2 */
+    font-size: 28px !important;    /* Tamanho menor e mais elegante */
+    font-weight: 700 !important;
+    padding-bottom: 10px;
+    margin-top: -10px !important; /* Sobe um pouco o título se estiver longe do topo */
+}
+
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    
+/* Remove o espaço em branco que sobra no topo após esconder o header */
+    .block-container {
+        padding-top: 0rem !important;
+        padding-top: 1rem !important; /* Ajuste aqui se o título ficar 'colado' demais */
+    }
+
+/* --- SIDEBAR --- */
+[data-testid="stSidebar"] {
+    background-color: #3B82F6 !important; /* Azul Claro M2 */
+}
+
+[data-testid="stSidebar"] .stMarkdown h3, 
+[data-testid="stSidebar"] label {
+    color: white !important;
+}
+
+[data-testid="stSidebarUserContent"] {
+    padding-top: 0rem !important;
+}
+
+[data-testid="stSidebar"] img {
+    margin-top: -20px !important;
+    margin-bottom: 10px !important;
+}
+
+/* --- CARDS DE MÉTRICAS --- */
+.metric-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border-top: 4px solid #3B82F6; /* Azul M2 */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.metric-label { 
+    color: #64748B; 
+    font-size: 13px; 
+    font-weight: bold; 
+}
+
+.metric-value { 
+    color: #3B82F6; 
+    font-size: 28px; 
+    font-weight: bold; 
+}
+
+/* --- FICHA DE TALENTOS --- */
+.detail-box {
+    background-color: #EEF2FF;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 5px solid #3B82F6;
+    margin-top: 10px;
+}
+
+/* --- BOTÃO DE UPLOAD E DROPZONE --- */
+[data-testid="stFileUploaderSection"] {
+    background-color: white !important;
+    border: 2px dashed #3B82F6 !important;
+    border-radius: 12px !important;
+}
+
+[data-testid="stFileUploaderDropzone"] button {
+    background-color: #F97316 !important; /* Laranja M2 */
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+}
+
+/* 3. MUDA O TEXTO DO BOTÃO 'Browse files' */
+
+[data-testid="stFileUploaderDropzone"] button::before {
+    content: "TRATAR DADOS";
+    font-size: 14px;
+}
+
+[data-testid="stFileUploaderDropzone"] button {
+    font-size: 0px !important;
+    background-color: #F97316 !important; /* Laranja M2 */
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 5px 10px !important;
+}
+
+/* Reduz a margem interna da logo para ela subir mais */
+[data-testid="stSidebar"] img {
+    margin-top: -30px !important;    /* Controla o espaço ACIMA da logo */
+    margin-bottom: -30px !important; /* Controla o espaço ENTRE a logo e o Uploader */
+}
+
+/* Customização de textos do Uploader */
+[data-testid="stFileUploaderDropzone"] div div::before {
+    content: "Arraste o arquivo aqui";
+    font-size: 16px;
+    color: #1E3A8A;
+}
+
+[data-testid="stFileUploaderDropzone"] small::before {
+    content: "Formatos aceitos: CSV";
+    font-size: 13px;
+    color: #64748B;
+}
+
+/* Esconde textos originais do Streamlit para aplicar os customizados */
+[data-testid="stFileUploaderDropzone"] div div, 
+[data-testid="stFileUploaderDropzone"] small {
+    font-size: 0px !important;
+}
