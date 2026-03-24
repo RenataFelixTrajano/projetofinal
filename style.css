@@ -11,14 +11,41 @@
     margin-top: -10px !important;
 }
 
-/* Esconde elementos nativos */
+/* Esconde APENAS o menu de 3 pontinhos e o link do Streamlit, mas MANTÉM o botão da sidebar */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
+
+/* --- TRATAMENTO DO HEADER E SETINHA --- */
+/* Removemos o fundo cinza da barra superior para o app ficar limpo */
+header[data-testid="stHeader"] {
+    background: none !important;
+    background-color: transparent !important;
+    border-bottom: none !important;
+}
+
+/* Garante que o botão de abrir (setinha) seja uma aba LARANJA visível */
+[data-testid="stSidebarCollapsedControl"] {
+    visibility: visible !important;
+    background-color: #F97316 !important; /* Laranja M2 */
+    border-radius: 0 10px 10px 0 !important;
+    padding: 8px !important;
+    left: 0 !important;
+    top: 15px !important;
+    z-index: 999999 !important;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1) !important;
+}
+
+/* Cor da setinha dentro do botão laranja */
+[data-testid="stSidebarCollapsedControl"] svg {
+    fill: white !important;
+    color: white !important;
+    width: 25px !important;
+    height: 25px !important;
+}
 
 /* Remove o espaço em branco do topo */
 .block-container {
-    padding-top: 0.5rem !important; /* Ajustado para um respiro mínimo */
+    padding-top: 1rem !important;
 }
 
 /* Media Query para Celulares */
@@ -43,27 +70,9 @@ header {visibility: hidden;}
     color: white !important;
 }
 
-/* Ajuste fino da Logo na Sidebar */
 [data-testid="stSidebar"] img {
     margin-top: -30px !important;    
     margin-bottom: -30px !important; 
-}
-
-/* --- DESTAQUE DA SETINHA DA SIDEBAR (MOBILE) --- */
-
-/* Altera a cor do ícone da setinha para Azul Escuro M2 */
-[data-testid="stSidebarCollapsedControl"] svg {
-    color: #1E3A8A !important;
-    fill: #1E3A8A !important;
-}
-
-/* Adiciona um fundo leve e borda para a setinha não sumir no branco */
-[data-testid="stSidebarCollapsedControl"] {
-    background-color: rgba(59, 130, 246, 0.1) !important; /* Azul Claro M2 com transparência */
-    border-radius: 0 8px 8px 0 !important;
-    padding: 5px !important;
-    left: 0 !important;
-    top: 10px !important; /* Ajusta a altura dela no topo */
 }
 
 /* --- CARDS DE MÉTRICAS --- */
@@ -89,16 +98,15 @@ header {visibility: hidden;}
     margin-top: 10px;
 }
 
-/* --- CUSTOMIZAÇÃO DO UPLOADER (DRAG & DROP) --- */
+/* --- CUSTOMIZAÇÃO DO UPLOADER --- */
 [data-testid="stFileUploaderSection"] {
     background-color: white !important;
     border: 2px dashed #3B82F6 !important;
     border-radius: 12px !important;
 }
 
-/* Botão Laranja "TRATAR DADOS" */
 [data-testid="stFileUploaderDropzone"] button {
-    font-size: 0px !important; /* Esconde o texto original */
+    font-size: 0px !important;
     background-color: #F97316 !important;
     color: white !important;
     border-radius: 8px !important;
@@ -112,7 +120,6 @@ header {visibility: hidden;}
     font-weight: bold;
 }
 
-/* Textos de apoio do Uploader */
 [data-testid="stFileUploaderDropzone"] div div::before {
     content: "Arraste o arquivo aqui";
     font-size: 16px;
