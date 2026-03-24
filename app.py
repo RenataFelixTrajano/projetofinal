@@ -14,7 +14,7 @@ def local_css(file_name):
 local_css("style.css")
 
 # --- 1. CONFIGURAÇÕES  ---
-st.set_page_config(page_title="Alma Perfumada", layout="wide")
+st.set_page_config(page_title="Alma Perfumada", layout="wide", initial_sidebar_state="collapsed")
 
 # --- INICIALIZAÇÃO DA LINA ---
 if "messages" not in st.session_state:
@@ -22,7 +22,7 @@ if "messages" not in st.session_state:
 
 # Definição da URL e Token (Coloque aqui no topo para não dar erro de conexão)
 API_URL = "https://cloud.flowiseai.com/api/v1/prediction/7aed7671-8c9e-4cc8-839a-5b4f43d207fc"
-API_TOKEN = st.secrets["API_TOKEN"]
+API_TOKEN = st.secrets["LINA_TOKEN"]
 
 M2_AZUL_ESCURO = "#1E3A8A"
 M2_AZUL_CLARO = "#3B82F6"
@@ -276,7 +276,7 @@ if uploaded_file:
 
     # Quadro do chat
     with st.container(border=True):
-        area_chat = st.container(height=200, border=False)
+        area_chat = st.container(height=400, border=False)
         
         # Exibe as mensagens existentes
         with area_chat:
@@ -288,12 +288,16 @@ if uploaded_file:
         if prompt := st.chat_input("Ex: Qual a unidade com mais colaboradores?", key="input_final_lina"):
             # 1. CRIAR O CONTEXTO REAL (O que a Lina deve ler)
             contexto_rh = f"""
-            Considere os seguintes dados atuais do dashboard:
-            - Total de colaboradores filtrados: {len(df_filtrado)}
-            - Unidade selecionada no filtro: {sel_unidade}
-            - Cargo selecionado no filtro: {sel_cargo}
-            - Média de idade: {val_media}
-            
+            CVOCÊ É A LINA, ASSISTENTE DE RH DA ALMA PERFUMADA.
+            DADOS ATUAIS DO DASHBOARD:
+            - Total de colaboradores na visualização: {len(df_filtrado)}
+            - Unidade filtrada: {sel_unidade}
+            - Cargo filtrado: {sel_cargo}
+            - Média de idade: {val_media} anos.
+
+            IMPORTANTE: Responda APENAS com base nestes números ou no seu conhecimento de RH. 
+            Se não souber, diga que não tem acesso a essa parte da planilha.
+
             Pergunta do usuário: {prompt}
             """
             

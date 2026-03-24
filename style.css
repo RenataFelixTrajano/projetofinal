@@ -21,6 +21,21 @@
         padding-top: 1rem !important; /* Ajuste aqui se o título ficar 'colado' demais */
     }
 
+/* Media Query para Celulares */
+@media (max-width: 640px) {
+    .metric-value {
+        font-size: 20px !important; /* Diminui o número da métrica no celular */
+    }
+    .titulo-dashboard {
+        font-size: 22px !important; /* Título menor para caber em uma linha */
+    }
+    /* Faz os cards ocuparem a largura total se o Streamlit não empilhar */
+    [data-testid="column"] {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+}
+
 /* --- SIDEBAR --- */
 [data-testid="stSidebar"] {
     background-color: #3B82F6 !important; /* Azul Claro M2 */
