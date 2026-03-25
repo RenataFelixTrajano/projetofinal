@@ -22,8 +22,8 @@ if "messages" not in st.session_state:
 
 # Definição da URL e Token (Coloque aqui no topo para não dar erro de conexão)
 API_URL = "https://cloud.flowiseai.com/api/v1/prediction/7aed7671-8c9e-4cc8-839a-5b4f43d207fc"
-#API_TOKEN = st.secrets["LINA_TOKEN"]
-API_TOKEN = "TxMBCxp6iZ9AkbHU-V79DWE3Wesbgm4N7JyWBTuti4M"
+API_TOKEN = st.secrets["LINA_TOKEN"]
+
 
 M2_AZUL_ESCURO = "#1E3A8A"
 M2_AZUL_CLARO = "#3B82F6"
