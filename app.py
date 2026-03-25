@@ -24,7 +24,6 @@ if "messages" not in st.session_state:
 API_URL = "https://cloud.flowiseai.com/api/v1/prediction/7aed7671-8c9e-4cc8-839a-5b4f43d207fc"
 API_TOKEN = st.secrets["LINA_TOKEN"]
 
-
 M2_AZUL_ESCURO = "#1E3A8A"
 M2_AZUL_CLARO = "#3B82F6"
 M2_LARANJA = "#F97316"
@@ -206,7 +205,7 @@ if uploaded_file:
 
     # Exibição dos cards de hoje (Alinhado fora do 'with col_pop')
     if not aniv_hoje.empty:
-        cols = st.columns(len(aniv_hoje) if len(aniv_hoje) < 4 else 3)
+        cols = st.columns(len(aniv_hoje) if len(aniv_hoje) < 5 else 4)
         for i, (_, row) in enumerate(aniv_hoje.iterrows()):
             with cols[i % len(cols)]:
                 st.success(f"✨ **{row[col_nome]}**\n\n{row[col_cargo]} - {row[col_setor]}")
