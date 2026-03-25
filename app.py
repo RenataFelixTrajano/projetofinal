@@ -22,12 +22,32 @@ if "messages" not in st.session_state:
 
 # Definição da URL e Token (Coloque aqui no topo para não dar erro de conexão)
 API_URL = "https://cloud.flowiseai.com/api/v1/prediction/7aed7671-8c9e-4cc8-839a-5b4f43d207fc"
-API_TOKEN = st.secrets["LINA_TOKEN"]
+#API_TOKEN = st.secrets["LINA_TOKEN"]
+API_TOKEN = "TxMBCxp6iZ9AkbHU-V79DWE3Wesbgm4N7JyWBTuti4M"
 
 M2_AZUL_ESCURO = "#1E3A8A"
 M2_AZUL_CLARO = "#3B82F6"
 M2_LARANJA = "#F97316"
 M2_FUNDO = "#F8FAFC"
+
+import requests # Certifique-se de ter essa biblioteca instalada
+
+def enviar_para_n8n_massa(lista_colaboradores):
+    URL_N8N = "https://moniquecoelho.app.n8n.cloud/webhook/aniversarios-almaperfumada"
+    
+    payload = {
+        "projeto": "Alma Perfumada",
+        "acao": "Disparo em Massa Aniversário",
+        "total_enviado": len(lista_colaboradores),
+        "dados": lista_colaboradores  # Aqui vai a lista completa
+    }
+    
+    try:
+        response = requests.post(URL_N8N, json=payload)
+        return response.status_code == 200
+    except Exception as e:
+        print(f"Erro: {e}")
+        return False
 
 
 # --- 3. LÓGICA DE DADOS ---
@@ -68,7 +88,7 @@ if uploaded_file:
     
     col_data_adm = next((c for c in df.columns if 'admissão' in c.lower() or 'adm' in c.lower()), None)
     col_nasc = next((c for c in df.columns if 'nascimento' in c.lower() or 'nasc' in c.lower()), None)
-    col_email = next((c for c in df.columns if 'email' in c.lower() or 'email' in c.lower()), None)
+    col_email = next((c for c in df.columns if 'Email' in c.lower() or 'email' in c.lower()), None)
 
 # --- 4. FILTROS DINÂMICOS NA SIDEBAR ---
     st.sidebar.markdown("### 🔍 Filtros de Análise")
@@ -145,10 +165,24 @@ if uploaded_file:
     # --- SEÇÃO DE CELEBRAÇÕES (COM POPUP) ---
     st.markdown("---")
 
-    col_tit, col_pop = st.columns([3, 1])
+    col_tit, col_btn, col_pop = st.columns([3, 1, 2], vertical_alignment="center")
 
     with col_tit:
         st.markdown(f"<h1 class='titulo-dashboard'>🎂 Aniversariantes de Hoje ({dia_mes_hoje})</h1>", unsafe_allow_html=True)    
+    
+    with col_btn:
+              
+    # Botão Pequeno e Discreto (Disponível apenas se houver aniversariantes)
+        if not aniv_hoje.empty:
+            # Texto curto e com o ícone de notificação que você prefere
+            if st.button("📩 Notificar", key="btn_notificacao_top", use_container_width=True):
+                with st.spinner("Lina preparando..."):
+                    lista_para_n8n = aniv_hoje[[col_nome, col_email, col_setor]].to_dict(orient='records')
+                    if enviar_para_n8n_massa(lista_para_n8n):
+                        st.toast("Notificações enviadas!", icon="✅")
+                    else:
+                        st.error("Erro ao integrar com o n8n.")
+    
     with col_pop:
         with st.popover("📅 Ver todos do mês", use_container_width=True):
             # Tradução manual para evitar dependência de biblioteca de sistema
@@ -176,9 +210,11 @@ if uploaded_file:
         for i, (_, row) in enumerate(aniv_hoje.iterrows()):
             with cols[i % len(cols)]:
                 st.success(f"✨ **{row[col_nome]}**\n\n{row[col_cargo]} - {row[col_setor]}")
-    else:
-        st.info("Nenhum aniversariante hoje.")
 
+    else:
+    # Se não houver ninguém, o botão nem é desenhado na tela
+        st.info("Nenhum aniversariante encontrado para a data de hoje.")
+    
     st.markdown("---")
 
 # --- 6. GRÁFICOS DINÂMICOS ---

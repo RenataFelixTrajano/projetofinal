@@ -8,7 +8,8 @@ def tratar_base_rh(uploaded_file):
     # 2. Identifica quais são as colunas de data (mesmo que mudem de nome)
     col_nasc_orig = next((c for c in df.columns if 'nascimento' in c.lower() or 'nasc' in c.lower()), None)
     col_adm_orig = next((c for c in df.columns if 'admissão' in c.lower() or 'adm' in c.lower()), None)
-    
+    col_email_orig = next((c for c in df.columns if 'Email' in c.lower() or 'email' in c.lower()), None)
+
     # 3. CONVERSÃO CRUCIAL: Transforma o texto '2018-01-31' em data real do Python
     if col_nasc_orig:
         df[col_nasc_orig] = pd.to_datetime(df[col_nasc_orig], errors='coerce')
@@ -32,7 +33,22 @@ def tratar_base_rh(uploaded_file):
     if col_adm_orig:
         df['Tempo_Empresa_Anos'] = df[col_adm_orig].apply(lambda x: hoje.year - x.year - ((hoje.month, hoje.day) < (x.month, x.day)) if pd.notnull(x) else 0)
 
-    # 5. Cria o e-mail no padrão que você usa no processado
-    df['Email'] = [f"{str((i % 4) + 1).zfill(2)}@teste.com" for i in range(len(df))]
+    # 5. Tratamento e Validação de E-mail
+    if col_email_orig:
+        # 1. Limpa os dados: remove espaços antes e depois e transforma em texto
+        df['Email'] = df[col_email_orig].fillna('').astype(str).str.strip()
+        
+        # 2. Define a regra matemática (Regex) de um e-mail válido genérico
+        # Aceita qualquer formato padrão: nome@provedor.com, nome.sobrenome@provedor.com.br, etc.
+        padrao_email = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        
+        # 3. Testa a coluna inteira contra essa regra (retorna Verdadeiro ou Falso)
+        emails_validos = df['Email'].str.match(padrao_email)
+        
+        # 4. Substitui os que NÃO (~) são válidos por 'não informado'
+        df.loc[~emails_validos, 'Email'] = 'não informado'
+    else:
+        # Caso a coluna nem exista no arquivo
+        df['Email'] = "não informado"
     
     return df
